@@ -1,5 +1,6 @@
 package kr.or.ddit.jdbc;
 
+import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -112,36 +113,53 @@ public class jdbcTest06 {
 		
 		System.out.println();
 		System.out.println("수정할 내용을 입력하세요.");
+		System.out.println("1. 비밀번호");
+		System.out.println("2. 이름");
+		System.out.println("3. 전화번호");
+		System.out.println("4. 주소");
+		int num = ScanUtil.nextInt("수정할 항목(번호)을 입력하세요: ");
+		
+		String sql = null; //null값으로 변수 초기화 많이 쓰일때 쓴다.
+		
+		
 		try {
 			conn = DBUtil.getConnection();
-			String sql = "update mymember set mem_pass = ?, mem_name = ? , "
-					+ " mem_tel = ?, mem_addr = ? "
-					+ " where mem_id = ? ";
-			pstmt = conn.prepareStatement(sql);
-			
-			int num = ScanUtil.nextInt("수정할 항목(번호)를 입력 : ");
-			
-			if(num == 1) {
+			//switch문을 활용하여 num값에 따라 항목을 선택하여 수정하는 코드이다.
+			//전체 수정 sql문을 쪼개어 4개로 나누면 가능하다 
+			//memId값도 있어야 하므로 where절에 memId값을 무조건 써줘야함. => 증가값이 들어가야된다.
+			switch (num) {
+			case 1: 
 				String newMemPass = ScanUtil.nextLine("새로운 비밀번호 >> ");
+				sql = "update mymember set mem_pass = ? where mem_id = ?";
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, newMemPass);
-				return;
-			}else if(num == 2) {
-				String newMemName = ScanUtil.nextLine("새로운 회원이름 >> ");
-				pstmt.setString(2, newMemName);
-				return;
-			}else if(num == 3) {
+				pstmt.setString(2, memId);
+				break;
+			case 2:
+				String newMemName = ScanUtil.nextLine("새로운 이름 >> ");
+				sql = "update mymember set mem_name = ? where mem_id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, newMemName);
+				pstmt.setString(2, memId);
+				break;
+			case 3:
 				String newMemTel = ScanUtil.nextLine("새로운 전화번호 >> ");
-				pstmt.setString(3, newMemTel);
-				return;
-			}else if(num == 4) {
+				sql = "update mymember set mem_tel = ? where mem_id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, newMemTel);
+				pstmt.setString(2, memId);
+				break;
+			case 4:
 				String newMemAddr = ScanUtil.nextLine("새로운 회원주소 >> ");
-				pstmt.setString(4, newMemAddr);
+				sql = "update mymember set mem_addr = ? where mem_id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, newMemAddr);
+				pstmt.setString(2, memId);
+				break;
+			default:
+				System.out.println("잘못 선택하였습니다..");
 				return;
-			}else {
-				pstmt.setString(5, memId);
-			} 
-			
-			
+			}
 			int cnt = pstmt.executeUpdate();
 			
 			if(cnt>0) {

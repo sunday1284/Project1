@@ -9,6 +9,7 @@ import java.util.List;
 
 import kr.or.ddit.mvc.vo.MemberVO;
 import kr.or.ddit.util.DBUtil;
+import kr.or.ddit.util.ScanUtil;
 
 /*
  * DAO객체 - 실제 DB와 연결해서 SQL문을 수행하여 결과를 작성해서 
@@ -112,6 +113,39 @@ public class MemberDao {
 			pstmt.setString(5, memVo.getMem_id());
 			
 			cnt = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt != null) try {pstmt.close();}catch(SQLException e) {}
+			if(conn != null) try {conn.close();}catch(SQLException e) {}
+		}
+		
+		return cnt;
+	}
+	public int updateMember2(MemberVO memVo) {
+		int cnt = 0;	//반환값이 저장될 변수
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int num;	
+		String updateField = null; 	//컬럼명이 저장될 변수
+		String updateTitle = null;	//새로운 값을 입력 받을 때 출력할 항목명이 저장될 변수
+		String newData = ScanUtil.nextLine();
+		try {
+			conn = DBUtil.getConnection();
+			
+			String sql = "update mymember set "+ updateField +" = ? "
+					+ " where mem_id = ? "; //sql문을 하나로 만들면 updateField가 필요함
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newData);
+			pstmt.setString(2, memVo.getMem_id());
+			
+			cnt = pstmt.executeUpdate();
+			if(cnt>0) {
+				System.out.println(updateTitle + "항목 수정 완료!!");
+			}else {
+				System.out.println(updateTitle + "항목 수정 실패~~");
+				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

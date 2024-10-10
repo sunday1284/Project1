@@ -1,6 +1,5 @@
 package kr.or.ddit.jdbc;
 
-import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,19 +96,7 @@ public class jdbcTest06 {
 			}
 		}
 	}
-	// 메뉴를 출력하고 작업 번호를 입력 받아 변환하는 메서드
-	private int displayMenu() {
-		// 메뉴
-		System.out.println("-------------------------------");
-		System.out.println("	1.자료 추가  ");
-		System.out.println("	2.자료 삭제   ");
-		System.out.println("	3.자료 전체 항목 수정");
-		System.out.println("	4.전체 자료 출력 ");
-		System.out.println("	5.자료 선택 항목 수정 ");
-		System.out.println("	0.작업 끝     ");
-		System.out.println("-------------------------------");
-		return ScanUtil.nextInt("작업 번호 선택 >> ");
-	}
+
 	//update ==> 선택 항목 수정
 	private void updateMember2() {
 		System.out.println();
@@ -123,69 +110,143 @@ public class jdbcTest06 {
 			return;
 		}
 		
-		System.out.println();
-		System.out.println("수정할 내용을 입력하세요.");
-		System.out.println("1. 비밀번호");
-		System.out.println("2. 이름");
-		System.out.println("3. 전화번호");
-		System.out.println("4. 주소");
-		int num = ScanUtil.nextInt("수정할 항목(번호)을 입력하세요: ");
+		int num;	
+		String updateField = null; 	//컬럼명이 저장될 변수
+		String updateTitle = null;	//새로운 값을 입력 받을 때 출력할 항목명이 저장될 변수
+		do {
+			System.out.println();
+			System.out.println("수정할 항목을 선택하세요...");
+			System.out.println("1.비밀번호 2.회원이름 3.전화번호 4.회원주소");
+			System.out.println("-----------------------------------------");
+			num = ScanUtil.nextInt("수정할 항목 선택 >> ");
+			
+			switch(num) {
+				case 1 :	updateField = "mem_pass"; updateTitle = "비밀번호";
+					break;
+				case 2 :	updateField = "mem_name"; updateTitle = "비밀이름";
+					break;	
+				case 3 :	updateField = "mem_tel"; updateTitle = "전화번호";
+					break;
+				case 4 :	updateField = "mem_addr"; updateTitle = "회원주소";
+					break;
+				default :
+					System.out.println("수정 항목을 잘못 선택했습니다. 다시 선택하세요...");
+			}
+			
+		}while(num<1 || num>4);
 		
-		String sql = null; //null값으로 변수 초기화 많이 쓰일때 쓴다.
-		
+		System.out.print("새로운 " +updateTitle + "  >> ");
+		String newData = ScanUtil.nextLine();
 		
 		try {
 			conn = DBUtil.getConnection();
-			//switch문을 활용하여 num값에 따라 항목을 선택하여 수정하는 코드이다.
-			//전체 수정 sql문을 쪼개어 4개로 나누면 가능하다 
-			//memId값도 있어야 하므로 where절에 memId값을 무조건 써줘야함. => 증가값이 들어가야된다.
-			switch (num) {
-			case 1: 
-				String newMemPass = ScanUtil.nextLine("새로운 비밀번호 >> ");
-				sql = "update mymember set mem_pass = ? where mem_id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, newMemPass);
-				pstmt.setString(2, memId);
-				break;
-			case 2:
-				String newMemName = ScanUtil.nextLine("새로운 이름 >> ");
-				sql = "update mymember set mem_name = ? where mem_id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, newMemName);
-				pstmt.setString(2, memId);
-				break;
-			case 3:
-				String newMemTel = ScanUtil.nextLine("새로운 전화번호 >> ");
-				sql = "update mymember set mem_tel = ? where mem_id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, newMemTel); //물음표 위치가 첫번째
-				pstmt.setString(2, memId);	   //물음표 위치가 두번째를 뜻함
-				break;
-			case 4:
-				String newMemAddr = ScanUtil.nextLine("새로운 회원주소 >> ");
-				sql = "update mymember set mem_addr = ? where mem_id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, newMemAddr);
-				pstmt.setString(2, memId);
-				break;
-			default:
-				System.out.println("잘못 선택하였습니다..");
-				return;
-			}
-			int cnt = pstmt.executeUpdate();
 			
+			String sql = "update mymember set "+ updateField +" = ? "
+					+ " where mem_id = ? "; //sql문을 하나로 만들면 updateField가 필요함
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newData);
+			pstmt.setString(2, memId);
+			
+			int cnt = pstmt.executeUpdate();
 			if(cnt>0) {
-				System.out.println(memId + " 회원 정보 수정 완료!!!");
+				System.out.println(updateTitle + "항목 수정 완료!!");
 			}else {
-				System.out.println(memId + " 회원 정보 수정 실패~~~");
+				System.out.println(updateTitle + "항목 수정 실패~~");
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			disConnect();
 		}
+		
+		
+//		System.out.println();
+//		System.out.println("수정할 회원 정보를 입력하세요.");
+//		String memId = ScanUtil.nextLine("회원ID >> ");
+//		
+//		int count = getMemberCount(memId);
+//		if(count == 0) {  //없는 회원이면....
+//			System.out.println(memId + "는(은) 없는 회원ID 입니다.");
+//			System.out.println("수정 작업을 마칩니다...");
+//			return;
+//		}
+//		
+//		System.out.println();
+//		System.out.println("수정할 내용을 입력하세요.");
+//		System.out.println("1. 비밀번호");
+//		System.out.println("2. 이름");
+//		System.out.println("3. 전화번호");
+//		System.out.println("4. 주소");
+//		int num = ScanUtil.nextInt("수정할 항목(번호)을 입력하세요: ");
+//		
+//		String sql = null; //null값으로 변수 초기화 많이 쓰일때 쓴다.
+//		
+//		
+//		try {
+//			conn = DBUtil.getConnection();
+//			//switch문을 활용하여 num값에 따라 항목을 선택하여 수정하는 코드이다.
+//			//전체 수정 sql문을 쪼개어 4개로 나누면 가능하다 
+//			//memId값도 있어야 하므로 where절에 memId값을 무조건 써줘야함. => 증가값이 들어가야된다.
+//			switch (num) {
+//			case 1: 
+//				String newMemPass = ScanUtil.nextLine("새로운 비밀번호 >> ");
+//				sql = "update mymember set mem_pass = ? where mem_id = ?";
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, newMemPass);
+//				pstmt.setString(2, memId);
+//				break;
+//			case 2:
+//				String newMemName = ScanUtil.nextLine("새로운 이름 >> ");
+//				sql = "update mymember set mem_name = ? where mem_id = ?";
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, newMemName);
+//				pstmt.setString(2, memId);
+//				break;
+//			case 3:
+//				String newMemTel = ScanUtil.nextLine("새로운 전화번호 >> ");
+//				sql = "update mymember set mem_tel = ? where mem_id = ?";
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, newMemTel);
+//				pstmt.setString(2, memId);
+//				break;
+//			case 4:
+//				String newMemAddr = ScanUtil.nextLine("새로운 회원주소 >> ");
+//				sql = "update mymember set mem_addr = ? where mem_id = ?";
+//				pstmt = conn.prepareStatement(sql);
+//				pstmt.setString(1, newMemAddr);
+//				pstmt.setString(2, memId);
+//				break;
+//			default:
+//				System.out.println("잘못 선택하였습니다..");
+//				return;
+//			}
+//			int cnt = pstmt.executeUpdate();
+//			
+//			if(cnt>0) {
+//				System.out.println(memId + " 회원 정보 수정 완료!!!");
+//			}else {
+//				System.out.println(memId + " 회원 정보 수정 실패~~~");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			disConnect();
+//		}
 	}
-	
+	// 메뉴를 출력하고 작업 번호를 입력 받아 변환하는 메서드
+	private int displayMenu() {
+		// 메뉴
+		System.out.println("-------------------------------");
+		System.out.println("	1.자료 추가  ");
+		System.out.println("	2.자료 삭제   ");
+		System.out.println("	3.자료 전체 항목 수정");
+		System.out.println("	4.전체 자료 출력 ");
+		System.out.println("	5.자료 선택 항목 수정 ");
+		System.out.println("	0.작업 끝     ");
+		System.out.println("-------------------------------");
+		return ScanUtil.nextInt("작업 번호 선택 >> ");
+	}
 		
 		//사용했던 자원을 반환하는 메서드
 	private void disConnect() {
@@ -231,7 +292,9 @@ public class jdbcTest06 {
 				pstmt.setString(3, MEMNAME);
 				pstmt.setString(4, MEMTEL);
 				pstmt.setString(5, MEMADDR);
+				
 				int cnt = pstmt.executeUpdate();
+				
 				if(cnt>0) {
 					System.out.println(memId + "회원 정보 추가 완료!!");
 				}else {

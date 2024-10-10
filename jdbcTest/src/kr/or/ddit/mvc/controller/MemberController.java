@@ -184,6 +184,13 @@ public class MemberController {
 		}while(num<1 || num>4);
 			System.out.print("새로운 " +updateTitle + "  >> ");
 			String newData = ScanUtil.nextLine();
+		
+			int cnt = service.updateMember2(memVo);
+			if(cnt>0) {
+				System.out.println("update 작업 성공!!");
+			}else {
+				System.out.println("update 작업 실패~~");
+			}
 	}
 	//시작 메서드
 	private void memberStart() {

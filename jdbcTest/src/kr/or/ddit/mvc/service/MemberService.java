@@ -47,6 +47,9 @@ public class MemberService {
 	public int updateMember(MemberVO memVO) {
 		return dao.updateMember(memVO);
 	}
+	public int updateMember2(MemberVO memVO2) {
+		return dao.updateMember2(memVO2);
+	}
 	
 	/**
 	 * DB의 전체 회원 정보를 가져와서 List에 담아서 변환하는 메서드

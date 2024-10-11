@@ -151,8 +151,7 @@ public class jdbcTest06 {
 			if(cnt>0) {
 				System.out.println(updateTitle + "항목 수정 완료!!");
 			}else {
-				System.out.println(updateTitle + "항목 수정 실패~~");
-				
+				System.out.println(updateTitle + "항목 수정 실패~~");	
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

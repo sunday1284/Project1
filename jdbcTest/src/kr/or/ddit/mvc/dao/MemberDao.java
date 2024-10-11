@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.mvc.vo.MemberVO;
 import kr.or.ddit.util.DBUtil;
@@ -122,39 +123,7 @@ public class MemberDao {
 		
 		return cnt;
 	}
-	public int updateMember2(MemberVO memVo) {
-		int cnt = 0;	//반환값이 저장될 변수
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int num;	
-		String updateField = null; 	//컬럼명이 저장될 변수
-		String updateTitle = null;	//새로운 값을 입력 받을 때 출력할 항목명이 저장될 변수
-		String newData = ScanUtil.nextLine();
-		try {
-			conn = DBUtil.getConnection();
-			
-			String sql = "update mymember set "+ updateField +" = ? "
-					+ " where mem_id = ? "; //sql문을 하나로 만들면 updateField가 필요함
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, newData);
-			pstmt.setString(2, memVo.getMem_id());
-			
-			cnt = pstmt.executeUpdate();
-			if(cnt>0) {
-				System.out.println(updateTitle + "항목 수정 완료!!");
-			}else {
-				System.out.println(updateTitle + "항목 수정 실패~~");
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			if(pstmt != null) try {pstmt.close();}catch(SQLException e) {}
-			if(conn != null) try {conn.close();}catch(SQLException e) {}
-		}
-		
-		return cnt;
-	}
+	
 	
 	/**
 	 * DB의 전체 회원 정보를 가져와서 List에 담아서 변환하는 메서드
@@ -238,6 +207,43 @@ public class MemberDao {
 			}
 		
 		return count;
+		
+		
+	}
+	/**
+	 * 수정할 정보가 저장된 Map 데이터를 파라미터로 받아서 원하는 컬럼을 수정하는 메서드
+	 * key값 정보 ==> 회원ID(MEMID), 수정할컬럼명(FIELD), 새로운데이터(NEWDATA)
+	 * 
+	 * @param paramMap 회원ID, 수정할컬럼명, 새로운데이터가 저장된 Map객체
+	 * @return 작업 성공 : 1, 작업 실패 : 0
+	 */
+	public int updateMember2(Map<String, String> paramMap) {
+		int cnt = 0;	//반환값이 저장될 변수
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			String sql = "update mymember set " + paramMap.get("FIELD") + " = ? "
+					 + "where mem_id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paramMap.get("NEWDATA"));
+			pstmt.setString(2, paramMap.get("MEMID"));
+			
+			cnt = pstmt.executeUpdate();
+							
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt != null) try {pstmt.close();}catch(SQLException e) {}
+			if(conn != null) try {conn.close();}catch(SQLException e) {}
+		}
+		
+		
+		
+		return cnt;
 	}
 	
 	

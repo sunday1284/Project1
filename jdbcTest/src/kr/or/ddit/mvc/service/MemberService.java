@@ -1,6 +1,7 @@
 package kr.or.ddit.mvc.service;
 //asdqs
 import java.util.List;
+import java.util.Map;
 
 import kr.or.ddit.mvc.dao.MemberDao;
 import kr.or.ddit.mvc.vo.MemberVO;
@@ -47,9 +48,6 @@ public class MemberService {
 	public int updateMember(MemberVO memVO) {
 		return dao.updateMember(memVO);
 	}
-	public int updateMember2(MemberVO memVO2) {
-		return dao.updateMember2(memVO2);
-	}
 	
 	/**
 	 * DB의 전체 회원 정보를 가져와서 List에 담아서 변환하는 메서드
@@ -68,5 +66,16 @@ public class MemberService {
 	 */
 	public int getMemberCount(String memId) {
 		return dao.getMemberCount(memId);
+	}
+	
+	/**
+	 * 수정할 정보가 저장된 Map 데이터를 파라미터로 받아서 원하는 컬럼을 수정하는 메서드
+	 * key값 정보 ==> 회원ID(MEMID), 수정할컬럼명(FIELD), 새로운데이터(NEWDATA)
+	 * 
+	 * @param paramMap 회원ID, 수정할컬럼명, 새로운데이터가 저장된 Map객체
+	 * @return 작업 성공 : 1, 작업 실패 : 0
+	 */
+	public int updateMember2(Map<String, String> paramMap) {
+		return dao.updateMember2(paramMap);
 	}
 }

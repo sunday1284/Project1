@@ -19,10 +19,7 @@ public class BookDao {
 	public List<BookVo> getbookList(){
 		List<BookVo> bookList = null;
 		
-		String sql = "SELECT A.BOARD_NO, A.TITLE, A.CONTENT, B.USER_NAME, A.REG_DATE"
-				+ " FROM TB_JDBC_BOARD A LEFT OUTER JOIN TB_JDBC_USER B"
-				+ " ON A.USER_ID = B.USER_ID"
-				+ " ORDER BY A.BOARD_NO DESC";
+		String sql =" SELECT *FROM BOOK";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -30,7 +27,9 @@ public class BookDao {
 			bookList = new ArrayList<BookVo>();
 			while(rs.next()) {
 				BookVo bvo = new BookVo();
-				
+				bvo.setBook_id(rs.getString("BOOK_ID"));
+				bvo.setBook_name(rs.getString("BOOK_NAME"));
+				bvo.setBook_pub(rs.getString("BOOK_PUB"));
 			}
 			
 		} catch (SQLException e) {

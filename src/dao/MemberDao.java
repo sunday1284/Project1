@@ -8,6 +8,7 @@ public class MemberDao {
 	private Connection con = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
+	
 	private void disConnect() {
 		if(rs != null) try { rs.close(); } catch(Exception e) {}
 		if(ps != null) try { ps.close(); } catch(Exception e) {}

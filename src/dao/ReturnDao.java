@@ -3,7 +3,8 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+////return ==> x--;
+//book y ++;
 public class ReturnDao {
 	private Connection con = null;
 	private PreparedStatement ps = null;

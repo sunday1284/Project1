@@ -30,6 +30,7 @@ public class BookDao {
 				bvo.setBook_id(rs.getString("BOOK_ID"));
 				bvo.setBook_name(rs.getString("BOOK_NAME"));
 				bvo.setBook_pub(rs.getString("BOOK_PUB"));
+				bookList.add(bvo);
 			}
 			
 		} catch (SQLException e) {

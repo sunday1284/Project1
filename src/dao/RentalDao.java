@@ -20,7 +20,7 @@ public class RentalDao {
             con = DBUtil.getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, "RENTAL_NAME");
-            ps.setString(2, "MEM_ID");
+            ps.setString(2, "MEM_ID"); 
             ps.setString(3, "RENTAL_DATE");
             ps.setString(4, "RENTAL_ID");
             result = ps.executeUpdate();

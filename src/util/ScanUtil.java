@@ -24,6 +24,7 @@ public class ScanUtil {
 			} catch (NumberFormatException e) {
 				System.out.println(" ** 잘못 입력 !!! (숫자를 입력하세요) **");
 			}
+		
 		}
 	}
 	

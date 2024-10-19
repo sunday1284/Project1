@@ -37,8 +37,8 @@ public class MemberDao {
             MemberVo mvo = new MemberVo();
             mvo.setMem_name(rs.getString("MEM_NAME"));
             mvo.setMem_id(rs.getString("MEM_ID"));
-            mvo.setMem_addr(rs.getString("MEM_ADDR"));
             mvo.setMem_num(rs.getString("MEM_NUM"));
+            mvo.setMem_pass(rs.getString("MEM_PASS"));
             memberList.add(mvo);
          }   
       

@@ -335,7 +335,7 @@ import vo.BookVo;
          
          return bookAlList;
       }//리스트
-      
+      //책 삽입 
       public int insertBook(String bookId, String bookName, String bookPub, int bookStock) {
     	    Connection con = null;
     	    PreparedStatement insertPs = null;
@@ -379,7 +379,7 @@ import vo.BookVo;
               rs = ps.executeQuery();
 
               if (rs.next()) {
-                  exists = rs.getInt(1) > 0;
+                  exists = rs.getInt(1) > 0; //개수가 0보다 클때 존재여부 확인 
               }
           } catch (SQLException e) {
               e.printStackTrace();

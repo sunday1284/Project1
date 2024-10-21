@@ -1,6 +1,5 @@
 package controller;
 
-
 import dao.BookDao;
 import util.Command;
 import util.ScanUtil;
@@ -22,14 +21,7 @@ public class AdBookController {
 		return controller;
 	}
 
-	// 관리자가 삽입 업데이트 관리 -> insertOrUpdateBook 호출
 	public Command Adinsert() {
-
-//		String type = (String) MainController.RegMap.get("TYPE");
-//		int num = ScanUtil.nextInt("책 코드 입력 ☞☞");
-//		
-//		String code = type + String.format("%04d", num);
-//		List<BookVo> bookList = bookservice.getBookList(code);
 		System.out.println("=====도서 추가=========");
 		System.out.print("책 코드를 입력하세요:");
 		String bookId = ScanUtil.nextLine();
@@ -40,21 +32,21 @@ public class AdBookController {
 		System.out.print("책 재고를 입력하세요: ");
 		int bookStock = ScanUtil.nextInt();
 		// 책이 이미 존재하는지 확인
-	    boolean bookExists = bookservice.checkBookExists(bookId);
+		boolean bookExists = bookservice.checkBookExists(bookId);
 
-	    if (bookExists) {
-	    	// 기존 책의 재고를 증가시키는 시도
+		// 책의 존재여부
+		if (bookExists) {
+			// 기존 책의 재고를 증가시키는 시도
 			bookservice.updateBookStock1(bookId);
-	        System.out.println("기존 책의 재고가 증가되었습니다.");
-	    } else {
-	        // 새로운 책 추가
-	        int insert = bookservice.insertBook(bookId, bookName, bookPub, bookStock);
-	        if (insert > 0) {
-	        } else {
-	        }
-	    }
+			System.out.println("기존 책의 재고가 증가되었습니다.");
+		} else {
+			// 새로운 책 추가
+			int insert = bookservice.insertBook(bookId, bookName, bookPub, bookStock);
+			if (insert > 0) {
+			} else {
+			}
+		}
 
-	
 		return Command.OPMEM_MU;
 
 	}
@@ -74,4 +66,23 @@ public class AdBookController {
 		return Command.OPMEM_MU;
 
 	}
+
+	// MEMBER와 BREGISTER 테이블에서 회원 삭제 메서드 호출
+	public Command MemBResDelete() {
+		System.out.println("=====회원 강제퇴실=========");
+		System.out.print("회원 ID를 입력하세요:");
+		String memberId = ScanUtil.nextLine();
+
+		// MEMBER와 BREGISTER 테이블에서 회원 삭제
+		int result = bookservice.deleteMember(memberId) + bookservice.deleteBRegister(memberId);
+
+		if (result > 0) {
+			System.out.println("회원이 강제 퇴실되었습니다."); 
+		} else {
+			System.out.println("회원 퇴실에 실패했습니다.");
+		}
+
+		return Command.OPMEM_MU;
+	}
+
 }

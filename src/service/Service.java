@@ -103,15 +103,7 @@ public class Service {
 	public int delebreturnBook(String memId, String bookId) {
 		return breturndao.delebreturnBook(memId, bookId);
 	}
-	// 도서 삭제 또는 업데이트 메서드 호출
-//    public void deleteOrUpdateBook(String bookId) {
-//        bookdao.deleteOrUpdateBook(bookId);
-//    }
 
-    // 도서 추가 또는 업데이트 메서드 호출
-//    public void insertOrUpdateBook(String bookId, String bookName, String bookPub, int bookStock) {
-//        bookdao.insertOrUpdateBook(bookId, bookName, bookPub, bookStock);
-//    }
 	
 	public int insertBook(String bookId, String bookName, String bookPub, int bookStock) {
 		return bookdao.insertBook(bookId, bookName, bookPub, bookStock);
@@ -130,5 +122,10 @@ public class Service {
 	public int updateBookStock2(String bookId)  {
 		return bookdao.updateBookStock2(bookId);
 	}
+	
+	 // MEMBER와 BREGISTER 테이블에서 회원 삭제
+    public int deleteMemberAndBRegister(String memberId) {
+        return bookdao.deleteMember(memberId)+bookdao.deleteBRegister(memberId);
+    }
 	
 }

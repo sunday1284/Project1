@@ -14,6 +14,7 @@ public enum Command {
 	OPMEM, 	//관리자 로그인
 	OPMEM_REG, //관리자 회원가입
 	OPMEM_MU, //관리자 메뉴창
+	OPMEM_MEM, //관리자가 맴버랑 레지스터 안에 있는 회원 삭제
 	
 	// 도서관리
 	BOOK_LIST,		// 도서관리 리스트

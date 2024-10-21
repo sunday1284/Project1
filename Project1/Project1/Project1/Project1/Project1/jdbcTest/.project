@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-<<<<<<< HEAD
-	<name>Project1</name>
-	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
-	</buildSpec>
-	<natures>
-=======
-	<name>project</name>
+	<name>jdbcTest</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -22,6 +13,5 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
->>>>>>> refs/remotes/origin/master
 	</natures>
 </projectDescription>

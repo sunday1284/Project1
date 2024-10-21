@@ -9,7 +9,7 @@ import util.ScanUtil;
 import vo.BookVo;
 import vo.RentalVo;
 import vo.BRegVo;
-
+//
 public class DoubleRController {
 
 	// 도서 대여

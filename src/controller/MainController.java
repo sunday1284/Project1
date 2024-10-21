@@ -6,7 +6,7 @@ import java.util.Map;
 import util.ScanUtil;
 import vo.BRegVo;
 import util.Command;
-
+//
 public class MainController {
 	public static Map<String, Object> RegMap = new HashMap<>();
 	private BRegController BregController;

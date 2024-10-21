@@ -1,5 +1,5 @@
 package vo;
-
+//
 public class RentalVo {
 	private String rental_date;
 	private String book_id;

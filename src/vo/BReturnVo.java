@@ -1,5 +1,5 @@
 package vo;
-
+//
 public class BReturnVo {
 
 	private String btreturn_date;

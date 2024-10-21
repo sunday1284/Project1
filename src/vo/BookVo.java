@@ -1,5 +1,5 @@
 package vo;
-
+//
 public class BookVo {
 
 	private String book_id;

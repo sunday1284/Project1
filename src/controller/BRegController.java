@@ -5,7 +5,7 @@ import util.Command;
 import util.ScanUtil;
 import vo.BRegVo;
 import vo.MemberVo;
-
+//
 public class BRegController {
 	private BRegDao BRegService;
 

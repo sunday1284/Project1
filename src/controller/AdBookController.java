@@ -1,18 +1,27 @@
 package controller;
 
+import java.util.List;
+
 import dao.BookDao;
+import dao.MemberDao;
 import util.Command;
 import util.ScanUtil;
 import vo.BookVo;
+import vo.MemberVo;
 
 public class AdBookController {
+	
 	private BookDao bookservice;
+	private MemberDao memberservice;
 	// 생성자 생성
 	BookVo bookvo = new BookVo();
+	MemberVo memvo = new MemberVo();
+	
 	private static AdBookController controller;
 
 	private AdBookController() {
 		bookservice = new BookDao();
+		memberservice = new MemberDao();
 	}
 
 	public static AdBookController getInstance() {
@@ -20,7 +29,7 @@ public class AdBookController {
 			controller = new AdBookController();
 		return controller;
 	}
-
+	
 	public Command Adinsert() {
 		System.out.println("=====도서 추가=========");
 		System.out.print("책 코드를 입력하세요:");
@@ -84,5 +93,24 @@ public class AdBookController {
 
 		return Command.OPMEM_MU;
 	}
+	
+	// 회원 목록을 출력하는 메서드
+	public Command viewMemberList() {
+	    List<MemberVo> memberList = memberservice.getMemberList();
+	    System.out.println("=============================================================================");
+	    System.out.println("회원 이름       회원 ID         전화번호          비밀번호                 역할");
+	    System.out.println("=============================================================================");
+	    for (MemberVo member : memberList) {
+	        System.out.printf("%-15s%-15s%-15s%-20s%-10s\n",
+	                member.getMem_name(),
+	                member.getMem_id(),
+	                member.getMem_num(),
+	                member.getMem_pass(),
+	                member.getRole());
+	    }
+	    System.out.println("=============================================================================");
+	    return Command.OPMEM_MU;
+	}
+
 
 }

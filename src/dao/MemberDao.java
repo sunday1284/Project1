@@ -9,7 +9,7 @@ import java.util.List;
 
 import util.DBUtil;
 import vo.MemberVo;
-//
+
 public class MemberDao {
    
    private Connection con = null;
@@ -39,6 +39,7 @@ public class MemberDao {
             mvo.setMem_id(rs.getString("MEM_ID"));
             mvo.setMem_num(rs.getString("MEM_NUM"));
             mvo.setMem_pass(rs.getString("MEM_PASS"));
+            mvo.setRole(rs.getString("ROLE"));
             memberList.add(mvo);
          }   
       

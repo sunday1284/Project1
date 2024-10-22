@@ -9,7 +9,7 @@ import java.util.List;
 
 import util.DBUtil;
 import vo.RentalVo;
-//도서 반납 ,
+//도서 반납
 public class BReturnDao {
 	private Connection con = null;
 	private PreparedStatement ps = null;

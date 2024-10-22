@@ -1,5 +1,5 @@
 package vo;
-//
+
 public class MemberVo {
 	private String mem_name;
 	private String mem_id;

@@ -6,7 +6,7 @@ import java.util.Map;
 import util.ScanUtil;
 import vo.BRegVo;
 import util.Command;
-//
+
 public class MainController {
 	public static Map<String, Object> RegMap = new HashMap<>();
 	private BRegController BregController;
@@ -113,6 +113,9 @@ public class MainController {
 			case OPMEM_MEM:
 				cmd = adbookController.MemBResDelete();
 				break;
+			case VIEW_MEMBERS:
+				cmd = adbookController.viewMemberList();
+				break;
 			case END:
 				for (int r = 1; r >= 1; r--) {
 					System.out.println("프로그램 종료 중... 소요시간 5초");
@@ -142,8 +145,7 @@ public class MainController {
 	
 	//===========================================================================================================
 	private Command home() {
-
-		System.out.println(green+"\r\n"
+		System.out.println(cyan+"\r\n"
 				+ "/\\\\\\\\\\\\\\\\\\\\\\\\______________________/\\\\\\\\\\\\\\\\\\\\\\__________________________________________________/\\\\\\\\\\\\\\\\\\\\\\\\________________________________________________        \r\n"
 				+ " \\/\\\\\\////////\\\\\\__________________/\\\\\\/////////\\\\\\______________________________________________/\\\\\\//////////_________________________________________________       \r\n"
 				+ "  \\/\\\\\\______\\//\\\\\\________________\\//\\\\\\______\\///______________________________________________/\\\\\\____________________________________________________________      \r\n"
@@ -217,7 +219,7 @@ public class MainController {
 		System.out.println();
 		System.out.println(
 				"----------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("\t1. 도서 리스트 \t2. 도서 추가 \t3. 도서 삭제  \t4.회원 강제퇴실\t0. 로그아웃");
+		System.out.println("\t1. 도서 리스트 \t2. 도서 추가 \t 3. 도서 삭제\t4.회원 강제퇴실\t5.회원 목록 보기\t0. 로그아웃");
 		System.out.println(
 				"----------------------------------------------------------------------------------------------------------------------------------");
 		int input = ScanUtil.nextInt("번호 선택 ☞☞ ");
@@ -231,6 +233,8 @@ public class MainController {
 			return Command.BOOK_DEL;
 		case 4:
 			return Command.OPMEM_MEM;
+		case 5:
+			return Command.VIEW_MEMBERS;
 		case 0:
 			MainController.RegMap.clear();
 			System.out.println("로그아웃 되었습니다. 이용해주셔서 감사합니다.");
@@ -242,7 +246,7 @@ public class MainController {
 	private Command BSysList() { // BOOK_VIEW
 
 		System.out.println();
-		System.out.println("원하시는 도서의 구분을 선택해주세요.");
+		System.out.println("원하시는 도서의 장르를 선택해주세요.");
 		System.out.println();
 		System.out.println(
 				"------------------------------------------------------------------------------------------------------------------------------------");

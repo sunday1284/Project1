@@ -37,6 +37,6 @@ public enum Command {
 	ALL,     //전체
 	
 	PASSRE, //비밀번호 중단
-	PASS
+	PASS, VIEW_MEMBERS //맴버 리스트 보여주기
 }
 

@@ -1,5 +1,5 @@
 package vo;
-//
+
 public class BRegVo {
 	private String breg_id;
 	private String breg_pass;

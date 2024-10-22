@@ -9,7 +9,7 @@ import util.DBUtil;
 import vo.MemberVo;
 import vo.BRegVo;
 
-//
+
 public class BRegDao {
    private Connection con = null;
    private PreparedStatement ps = null;
